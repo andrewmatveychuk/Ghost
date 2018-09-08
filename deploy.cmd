@@ -99,13 +99,15 @@ call :SelectNodeVersion
 
 :: 3. Install Yarn
 echo Verifying Yarn Install.
+call :ExecuteCmd !NPM_CMD! config set prefix "D:\home\tools"
 call :ExecuteCmd !NPM_CMD! install yarn -g
+set path=%path%;D:\home\tools
 
 :: 4. Install Yarn packages
 echo Installing Yarn Packages.
 IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
-  call :ExecuteCmd yarn install --production
+  call :ExecuteCmd yarn.cmd install --production
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
 )
